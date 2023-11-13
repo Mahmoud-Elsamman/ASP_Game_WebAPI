@@ -11,7 +11,7 @@ namespace ASP_core_API.Models
 
         public string Name { get; set; }
 
-        public string Damage { get; set; }
+        public int Damage { get; set; }
         public List<CharacterSkill> CharacterSkills { get; set; }
 
     }

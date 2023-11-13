@@ -58,7 +58,8 @@ namespace ASP_core_API.Data
                 response.Message = "User already exists.";
                 return response;
             }
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            Utility.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
@@ -77,16 +78,6 @@ namespace ASP_core_API.Data
                 return true;
             }
             return false;
-        }
-
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -112,7 +103,8 @@ namespace ASP_core_API.Data
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Name)
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(

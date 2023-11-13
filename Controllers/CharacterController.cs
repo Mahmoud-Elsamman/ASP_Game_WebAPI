@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace ASP_core_API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Player,Admin")]
     [ApiController]
     [Route("[controller]")]
     public class CharacterController : ControllerBase

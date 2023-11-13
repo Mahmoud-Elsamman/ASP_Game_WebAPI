@@ -25,7 +25,7 @@ namespace ASP_core_API.Controllers
         public async Task<IActionResult> Register(UserRegisterDto request)
         {
             ServiceResponse<int> response = await _authRepo.Register(
-                new User { Name = request.Username }, request.Password
+                new User { Name = request.Username, Role = request.Role }, request.Password
             );
 
             if (!response.Success)

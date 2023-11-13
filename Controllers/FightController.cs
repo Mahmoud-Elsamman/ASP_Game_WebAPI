@@ -30,5 +30,16 @@ namespace ASP_core_API.Controllers
         {
             return Ok(await _fightService.SkillAttack(request));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Fight(FightRequestDto request)
+        {
+            return Ok(await _fightService.Fight(request));
+        }
+
+        public async Task<IActionResult> GetHighScores()
+        {
+            return Ok(await _fightService.GetHighScores());
+        }
     }
 }

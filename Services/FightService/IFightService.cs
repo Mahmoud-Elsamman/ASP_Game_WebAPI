@@ -12,6 +12,10 @@ namespace ASP_core_API.Services.FightService
     {
         Task<ServiceResponse<AttackResultDto>> WeaponAttack(WeaponAttackDto weaponAttack);
         Task<ServiceResponse<AttackResultDto>> SkillAttack(SkillAttackDto skillAttack);
+        Task<ServiceResponse<FightResultDto>> Fight(FightRequestDto request);
+        Task<ServiceResponse<List<HighscoreDto>>> GetHighScores();
+
+
 
     }
 }

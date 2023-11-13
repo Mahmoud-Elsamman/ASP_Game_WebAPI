@@ -28,6 +28,7 @@ namespace ASP_core_API.Services.CharacterService
         }
 
         public int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        public string GetUserRole() => _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
 
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
@@ -74,7 +75,10 @@ namespace ASP_core_API.Services.CharacterService
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
             ServiceResponse<List<GetCharacterDto>> serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            List<Character> dbCharacters = await _context.Characters.Where(c => c.User.Id == GetUserId()).ToListAsync();
+            List<Character> dbCharacters =
+                GetUserRole().Equals("Admin") ?
+                await _context.Characters.ToListAsync() :
+                await _context.Characters.Where(c => c.User.Id == GetUserId()).ToListAsync();
             serviceResponse.Data = (dbCharacters.Select(character => _mapper.Map<GetCharacterDto>(character))).ToList();
             return serviceResponse;
         }
